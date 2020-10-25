@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MarkedText from "./MarkedText";
+	import CategoryDisplay from "./CategoryDisplay.svelte";
 </script>
 
-<MarkedText/>
+<CategoryDisplay/>
