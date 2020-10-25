@@ -18,9 +18,11 @@
     entfernen
 </button>
 
-<ul>
-    {#each categories as category}
-        <p style="background-color: {category.color}">{category.value}</p>
-    {/each}
-</ul>
+{#each categories as category, i}
+    <div>
+        <input type="color" bind:value={category.color} style="background-color:{category.color}">
+        <input type="text" contenteditable="true" bind:value={category.value} style="background-color:{category.color}">
+        <button on:click={e => categoryStore.removeAtIndex(i)}>❌</button>
+    </div>
+{/each}
 

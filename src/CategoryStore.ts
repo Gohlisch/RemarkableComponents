@@ -29,7 +29,7 @@ class CategoryStore {
 
 	public removeAtIndex(index: number): void {
 		this.categories.update((c: Array<Category>) => {
-			c.splice(index);
+			c.splice(index, 1);
 			return c;
 		});
 	}
@@ -39,7 +39,7 @@ class CategoryStore {
 			return c.filter(x => x.value !== value);
 		});
 	}
-
+	// TODO: Improve, if 255 0 0 was removed, and there were following colors, the first to be added after that  removal should be 255 0 0
 	private determineColorHex(): string {
 		const length: number = get(this.categories).length;
 		const secondColor: number = (length < 3) ? 0 : (length < 6) ? 244 : 122
