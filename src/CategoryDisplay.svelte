@@ -20,8 +20,8 @@
 
 {#each categories as category, i}
     <div>
-        <input type="color" on:input={e=>categoryStore.updateCategory(i, "", e.target.value)} style="background-color:{category.color}">
-        <input type="text" contenteditable="true" on:input={e=>categoryStore.updateCategory(i, e.target.value, "")} style="background-color:{category.color}" value="{category.value}">
+        <input type="color" on:input={e=>categoryStore.update(i, "", e.target.value)} style="background-color:{category.color}">
+        <input type="text" contenteditable="true" on:input={e=>categoryStore.update(i, e.target.value, "")} style="background-color:{category.color}" value="{category.value}">
         <button on:click={e => categoryStore.removeAtIndex(i)}>❌</button>
     </div>
 {/each}
