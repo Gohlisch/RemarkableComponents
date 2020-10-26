@@ -4,9 +4,11 @@ import type { Category } from "./Category";
 
 class CategoryStore {
 	private categories: Writable<Array<Category>>;
+	private length: number = 0;
 
 	constructor() {
 		this.categories = writable(new Array<Category>());
+		this.categories.subscribe(c => this.length = c.length);
 	}
 
 	public subscribe(run: (value: Array<Category>) => void, invalidate?:(value?: Array<Category>) => void): void {
@@ -20,9 +22,10 @@ class CategoryStore {
 		return index;
 	}
 
-	public update(value: string, index: number): void  {
+	public update(index: number, value?: string, color?: string): void  {
 		this.categories.update((c: Array<Category>) => {
-			c[index].value = value;
+			if(value) c[index].value = value;
+			if(color) c[index].color = color;
 			return c;
 		})
 	}
@@ -39,12 +42,16 @@ class CategoryStore {
 			return c.filter(x => x.value !== value);
 		});
 	}
+
+	public getByValue(value: string): Category | null {
+		return get(this.categories).filter(x => x.value.toLowerCase() === value.toLowerCase()).pop();
+	}
+
 	// TODO: Improve, if 255 0 0 was removed, and there were following colors, the first to be added after that  removal should be 255 0 0
 	private determineColorHex(): string {
-		const length: number = get(this.categories).length;
-		const secondColor: number = (length < 3) ? 0 : (length < 6) ? 244 : 122
-		const thirdColor: number = (length < 9) ? 0 : (length < 12) ? 244 : 122;
-		const cycleIndex: number = length % 3;
+		const secondColor: number = (this.length < 3) ? 0 : (this.length < 6) ? 244 : 122
+		const thirdColor: number = (this.length < 9) ? 0 : (this.length < 12) ? 244 : 122;
+		const cycleIndex: number = this.length % 3;
 		if(cycleIndex == 0) {
 			return CategoryStore.rgbToHex(255, secondColor, thirdColor);
 		} else if(cycleIndex == 1) {
