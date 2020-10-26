@@ -11,21 +11,26 @@ class CategoryStore {
 		this.categories.subscribe(c => this.length = c.length);
 	}
 
-	public subscribe(run: (value: Array<Category>) => void, invalidate?:(value?: Array<Category>) => void): void {
-		this.categories.subscribe(run, invalidate);
+	public subscribe(run: (value: Array<Category>) => void, invalidate?:(value?: Array<Category>) => void): (()=>void) {
+		return this.categories.subscribe(run, invalidate);
 	}
 
-	public add(value: string): number {
-		if(!value) return;
+	public add(category: Category): number {
+		if(!category.name) return;
 		const index: number = get(this.categories).length;
-		this.categories.update((c: Array<Category>) => c.concat({value, color: this.determineColorHex()}));
+		this.categories.update((c: Array<Category>) => c.concat(
+			{
+				name: category.name,
+				value: category.value,
+				color: category.color? category.color : this.determineColorHex()
+			})
+		);
 		return index;
 	}
 
-	public update(index: number, value?: string, color?: string): void  {
+	public update(index: number, categorie: Category): void  {
 		this.categories.update((c: Array<Category>) => {
-			if(value) c[index].value = value;
-			if(color) c[index].color = color;
+			c[index] = categorie;
 			return c;
 		})
 	}
@@ -43,8 +48,14 @@ class CategoryStore {
 		});
 	}
 
+	public removeByName(name: string): void {
+		this.categories.update((c: Array<Category>) => {
+			return c.filter(x => x.name !== name);
+		});
+	}
+
 	public getByValue(value: string): Category | null {
-		return get(this.categories).filter(x => x.value.toLowerCase() === value.toLowerCase()).pop();
+		return get(this.categories).filter(x => x.value ? x.value.toLowerCase() === value.toLowerCase(): false).pop();
 	}
 
 	// TODO: Improve, if 255 0 0 was removed, and there were following colors, the first to be added after that  removal should be 255 0 0

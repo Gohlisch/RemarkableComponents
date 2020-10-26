@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CategoryDisplay from "./CategoryDisplay.svelte";
 	import CategorizedText from "./CategorizedText.svelte";
+	import CategoryShowcase from "./CategoryShowcase.svelte";
 
 	const text: string = `Das hier ist ein wirklich langer Text mit sehr vielen Wörtern.
 	Oh man, ich wette hier lassen sich so einige Schlüsselwörter finden! Wenn wir Worte finden,
@@ -10,3 +11,4 @@
 
 <CategoryDisplay/>
 <CategorizedText text={text}/>
+<CategoryShowcase/>
