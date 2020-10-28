@@ -1,7 +1,7 @@
 import {get, writable} from "svelte/store";
 import type { Writable } from "svelte/store";
-import type { Category } from "./Category";
-import type {Invalidator, Subscriber, Unsubscriber} from "./SvelteTypes";
+import type { Category } from "../Model/Category";
+import type {Invalidator, Subscriber, Unsubscriber} from "../SvelteTypes";
 
 class CategoryStore {
 	private categories: Writable<Array<Category>>;

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import CategoryDisplay from "./CategoryDisplay.svelte";
-	import CategorizedText from "./CategorizedText.svelte";
-	import CategoryShowcase from "./CategoryShowcase.svelte";
-	import ReviewSlideshow from "./ReviewSlideshow.svelte";
-	import {categoryStore} from "./CategoryStore";
-	import CategoryRadioPicker from "./CategoryRadioPicker.svelte";
+	import CategoryDisplay from "./Components/CategoryDisplay.svelte";
+	import CategorizedText from "./Components/CategorizedText.svelte";
+	import CategoryShowcase from "./Components/CategoryShowcase.svelte";
+	import ReviewSlideshow from "./Components/ReviewSlideshow.svelte";
+	import {categoryStore} from "./Stores/CategoryStore";
+	import CategoryRadioPicker from "./Components/CategoryRadioPicker.svelte";
 
 	categoryStore.add({name: "Geschlecht", value: "Männlich", color: "#d8a2d4"});
 	categoryStore.add({name: "Name", value: "Müller", color: "#d6d8a2"});

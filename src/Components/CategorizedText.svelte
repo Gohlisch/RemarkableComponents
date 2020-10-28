@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { categoryStore } from "./CategoryStore";
+    import { categoryStore } from "../Stores/CategoryStore";
     import { onMount } from "svelte";
 
     export let text: string = "";

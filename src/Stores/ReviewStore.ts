@@ -1,4 +1,4 @@
-import type { Review } from "./Review";
+import type { Review } from "../Model/Review";
 import type { Writable} from "svelte/store";
 import { writable } from "svelte/store";
 

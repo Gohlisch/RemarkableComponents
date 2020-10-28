@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type {Category} from "./Category";
-	import {categoryStore} from "./CategoryStore";
+	import type {Category} from "../Model/Category";
+	import {categoryStore} from "../Stores/CategoryStore";
 	import {onDestroy} from "svelte";
-	import type {Unsubscriber} from "./SvelteTypes";
+	import type {Unsubscriber} from "../SvelteTypes";
 
 	export let categoryName: string;
 	export let options: Array<string>;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {categoryStore} from "./CategoryStore";
+	import {categoryStore} from "../Stores/CategoryStore";
 </script>
 
 {#each $categoryStore as category, i}

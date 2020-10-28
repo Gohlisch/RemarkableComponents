@@ -1,9 +1,9 @@
 <script lang="ts">
-	import {reviewStore} from "./ReviewStore";
+	import {reviewStore} from "../Stores/ReviewStore";
 	import CategorizedText from "./CategorizedText.svelte";
-	import {categoryStore} from "./CategoryStore";
+	import {categoryStore} from "../Stores/CategoryStore";
 	import {get} from "svelte/store";
-	import type {Review} from "./Review";
+	import type {Review} from "../Model/Review";
 
 	let current: number = 0;
 	let max: number = 0;

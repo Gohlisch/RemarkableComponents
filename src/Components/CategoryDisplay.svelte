@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { categoryStore} from "./CategoryStore";
-    import type { Category } from "./Category";
+	import { categoryStore} from "../Stores/CategoryStore";
+    import type { Category } from "../Model/Category";
     let value: string;
     let categories: Array<Category>;
     categoryStore.subscribe(updated => categories = updated);
