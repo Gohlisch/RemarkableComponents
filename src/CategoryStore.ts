@@ -1,6 +1,7 @@
 import {get, writable} from "svelte/store";
 import type { Writable } from "svelte/store";
 import type { Category } from "./Category";
+import type {Invalidator, Subscriber, Unsubscriber} from "./SvelteTypes";
 
 class CategoryStore {
 	private categories: Writable<Array<Category>>;
@@ -11,13 +12,13 @@ class CategoryStore {
 		this.categories.subscribe(c => this.length = c.length);
 	}
 
-	public subscribe(run: (value: Array<Category>) => void, invalidate?:(value?: Array<Category>) => void): (()=>void) {
+	public subscribe(run: Subscriber<Array<Category>>, invalidate?: Invalidator<Array<Category>>): Unsubscriber {
 		return this.categories.subscribe(run, invalidate);
 	}
 
 	public add(category: Category): number {
 		if(!category.name) return;
-		const index: number = get(this.categories).length;
+		const index: number = length;
 		this.categories.update((c: Array<Category>) => c.concat(
 			{
 				name: category.name,
@@ -28,9 +29,18 @@ class CategoryStore {
 		return index;
 	}
 
-	public update(index: number, categorie: Category): void  {
+	public updateAt(index: number, category: Category): void  {
 		this.categories.update((c: Array<Category>) => {
-			c[index] = categorie;
+			if(category.name) c[index].name = category.name;
+			if(category.value) c[index].value = category.value;
+			if(category.color) c[index].color = category.color;
+			return c;
+		})
+	}
+
+	public updateWithName(name: string, category: Category): void {
+		this.categories.update((c: Array<Category>) => {
+			c.filter(cat => cat.name === name).pop().name = name;
 			return c;
 		})
 	}
@@ -56,6 +66,10 @@ class CategoryStore {
 
 	public getByValue(value: string): Category | null {
 		return get(this.categories).filter(x => x.value ? x.value.toLowerCase() === value.toLowerCase(): false).pop();
+	}
+
+	public getByName(name: string): Category | null {
+		return get(this.categories).filter(x => x.name ? x.name === name : false).pop();
 	}
 
 	// TODO: Improve, if 255 0 0 was removed, and there were following colors, the first to be added after that  removal should be 255 0 0
