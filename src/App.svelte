@@ -5,6 +5,7 @@
 	import ReviewSlideshow from "./Components/ReviewSlideshow.svelte";
 	import {categoryStore} from "./Stores/CategoryStore";
 	import CategoryRadioPicker from "./Components/CategoryRadioPicker.svelte";
+	import CategorySelectButton from "./Components/CategorySelectButton.svelte";
 
 	categoryStore.add({name: "Geschlecht", value: "männlich", color: "#d8a2d4"});
 	categoryStore.add({name: "Name", value: "Müller", color: "#d6d8a2"});
@@ -17,6 +18,7 @@
 </script>
 <CategoryRadioPicker categoryName="Geschlecht" options={["unbekannt", "männlich", "weiblich"]} />
 <CategoryAdministration/>
+<CategorySelectButton categoryName="Anliegen"/>
 <CategorizedText text={text}/>
 <div style="max-width: 600px; margin-left: auto; margin-right: auto">
     <CategoryForm/>
