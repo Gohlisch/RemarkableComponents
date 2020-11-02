@@ -5,7 +5,7 @@
     import { onDestroy, onMount } from "svelte";
 
     export let categoryName: string;
-    let category: Category = {name: "", value:"", color:""};
+    let category: Category = { name: "", value:"", color:"" };
     let index: number;
     let unsubscribe: Unsubscriber;
 
@@ -26,14 +26,20 @@
 	    }
     };
 
+    const abortMarker: EventListener = (e: KeyboardEvent) => {
+        if(e.key === "Escape") putDownMarker();
+    }
+
     function pickUpMarker(): void {
 	    document.getElementsByTagName("html").item(0).style.cursor="grab";
 	    window.addEventListener("mouseup", marker);
+	    window.addEventListener("keydown", abortMarker);
     }
 
     function putDownMarker(): void {
 	    document.getElementsByTagName("html").item(0).style.cursor="auto";
 	    window.removeEventListener("mouseup", marker);
+	    window.removeEventListener("keydown", abortMarker);
     }
 
     onDestroy(() => unsubscribe());
