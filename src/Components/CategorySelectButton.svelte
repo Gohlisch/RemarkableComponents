@@ -4,16 +4,16 @@
     import {categoryStore} from "../Stores/CategoryStore";
     import {onDestroy, onMount} from "svelte";
 
-    export let categoryName: string = "  ";
+    export let categoryName: string;
     let category: Category = {name: "", value:"", color:""};
     let unsubscriber: Unsubscriber;
 
     onMount(()=> unsubscriber = categoryStore.subscribe(() => category = categoryStore.getByName(categoryName)));
 
     const marker: EventListener = () => {
-	    const selected: string = window.getSelection().toString();
+    	// TODO: Display SVG as cursor, to give the user a hint of what is happening
+	    const selected: string = window.getSelection().toString().trim();
 	    if (selected) {
-		    console.log(selected);
 		    category.value = selected;
 		    categoryStore.updateWithName(category.name, category);
 		    putDownMarker();
@@ -21,12 +21,13 @@
     };
 
     function pickUpMarker(): void {
-    	console.log("clicked")
-    	window.addEventListener("mouseup", marker);
+	    document.getElementsByTagName("html").item(0).style.cursor="grab";
+	    window.addEventListener("mouseup", marker);
     }
 
     function putDownMarker(): void {
-    	window.removeEventListener("mouseup", marker);
+	    document.getElementsByTagName("html").item(0).style.cursor="auto";
+	    window.removeEventListener("mouseup", marker);
     }
 
     onDestroy(()=>unsubscriber())
