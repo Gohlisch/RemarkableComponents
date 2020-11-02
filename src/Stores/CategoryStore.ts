@@ -1,10 +1,10 @@
-import {get, writable} from "svelte/store";
-import type { Writable } from "svelte/store";
 import type { Category } from "../Model/Category";
+import type { Writable } from "svelte/store";
 import type {Invalidator, Subscriber, Unsubscriber} from "../SvelteTypes";
+import {get, writable} from "svelte/store";
 
 class CategoryStore {
-	private categories: Writable<Array<Category>>;
+	private readonly categories: Writable<Array<Category>>;
 	private length: number = 0;
 
 	constructor() {
@@ -38,13 +38,6 @@ class CategoryStore {
 		})
 	}
 
-	public updateWithName(name: string, category: Category): void {
-		this.categories.update((c: Array<Category>) => {
-			c.filter(cat => cat.name === name).pop().name = name;
-			return c;
-		})
-	}
-
 	public removeAtIndex(index: number): void {
 		this.categories.update((c: Array<Category>) => {
 			c.splice(index, 1);
@@ -64,15 +57,22 @@ class CategoryStore {
 		});
 	}
 
+	public getIndexByName(name: string): number | null {
+		const categories = get(categoryStore);
+		for(let i: number = 0; i < categories.length; ++i)
+			if(categories[i].name === name) return i;
+		return null;
+	}
+
+	public getByIndex(index: number): Category | null {
+		return get(this.categories)[index];
+	}
+
 	public getByValue(value: string): Category | null {
 		return get(this.categories).filter(x => x.value ? x.value.toLowerCase() === value.toLowerCase(): false).pop();
 	}
 
-	public getByName(name: string): Category | null {
-		return get(this.categories).filter(x => x.name ? x.name === name : false).pop();
-	}
-
-	// TODO: Improve, if 255 0 0 was removed, and there were following colors, the first to be added after that  removal should be 255 0 0
+	// TODO: Improve: if 255 0 0 was removed, and there were following colors, the first to be added after that  removal should be 255 0 0
 	private determineColorHex(): string {
 		const secondColor: number = (this.length < 3) ? 0 : (this.length < 6) ? 244 : 122
 		const thirdColor: number = (this.length < 9) ? 0 : (this.length < 12) ? 244 : 122;
